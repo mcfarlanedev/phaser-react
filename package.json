@@ -1,21 +1,21 @@
 {
-  "name": "phaser-react",
-  "version": "1.0.0",
+  "name": "phaser3-react",
+  "version": "1.0.14",
   "description": "a phaser plugin to make working with react ezpz",
-  "main": "src/index.ts",
+  "main": "dist/main.js",
   "repository": "https://github.com/KingCosmic/phaser-react",
   "author": "Austyn Studdard <KingCosmicDev@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "build": "webpack -p ./src/index.tsx"
+    "build": "webpack -p ./src/index.ts"
   },
   "dependencies": {
-    "@types/react-dom": "^16.9.6",
-    "@types/webpack": "^4.41.10",
+    "@types/react": "^16.9.31",
     "eventemitter3": "^4.0.0"
   },
   "devDependencies": {
-    "@types/react": "^16.9.29",
+    "@types/react-dom": "^16.9.6",
+    "@types/webpack": "^4.41.10",
     "phaser": "^3.22.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",

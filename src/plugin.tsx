@@ -1,5 +1,5 @@
 import { Plugins } from 'phaser';
-import React, { ReactNode } from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
 import Renderer from './renderer';
@@ -15,6 +15,11 @@ type PluginOptions = {
   dontInjectReact: boolean;
 };
 
+const defaultOptions: PluginOptions = {
+  parent: '',
+  dontInjectReact: false
+}
+
 class ReactUI extends Plugins.BasePlugin {
   constructor(pluginManager: Plugins.PluginManager) {
     super(pluginManager);
@@ -23,19 +28,35 @@ class ReactUI extends Plugins.BasePlugin {
     pluginManager.registerGameObject('reactDom', this.createReactDom);
   }
 
-  init(options?: PluginOptions) {
+  init(options: PluginOptions) {
+    options = { ...defaultOptions, ...options }
+    // did they set a parent on the game config?
+    let gameParent = this.game.config.parent;
+
+    // don't inject react incase the user wants to use this plugin inside a react project.
     if (options.dontInjectReact) return;
     if (!options.parent) {
-      let parent = document.createElement('div');
-      parent.appendChild(this.game.canvas);
+      let cont = document.createElement('div');
+      let reactcont = document.createElement('div');
+      document.body.appendChild(cont);
 
-      ReactDOM.render(<Renderer />, parent);
+      cont.appendChild(this.game.canvas);
+      cont.appendChild(reactcont);
+      cont.style.position = 'relative'
+      reactcont.style.position = 'absolute';
+      reactcont.style.top = '0'
+      reactcont.style.left = '0'
+      reactcont.style.width = '100%'
+      reactcont.style.height = '100%'
+
+      ReactDOM.render(<Renderer />, reactcont);
     } else {
+
       ReactDOM.render(<Renderer />, document.getElementById(options.parent));
     }
   }
 
-  createReactDom(component: ReactNode, props: Object) {
+  createReactDom(component: Component, props: Object) {
     return manager.addUI(component, props);
   }
 }
